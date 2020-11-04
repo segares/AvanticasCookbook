@@ -191,3 +191,16 @@ select.medium {
 	margin-bottom: 20px;
 	width: 600px;
 }
+
+.recipeForm {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.recipeForm > div {
+	margin: 10px;
+}
+
+
+
