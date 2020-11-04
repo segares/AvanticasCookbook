@@ -12,84 +12,73 @@
 
 <body id="main_body">
 
-	<img id="top" src="top.png" alt="">
-	<div id="form_container">
+	<h1><a>Avantica’s Cookbook</a></h1>
 
-		<h1><a>Avantica’s Cookbook</a></h1>
-
-		<div class="form_description">
-			<h2>Avantica’s Cookbook</h2>
-			<p></p>
-		</div>
-		<ul>
-			<li id="li_2">
-				<label class="description" for="element_2">Category </label>
-				<div>
-					<select class="element select medium" id="element_2" name="element_2">
-						<option value="" selected="selected"></option>
-						<option value="1">All Recipes</option>
-						<option value="2">Pastas</option>
-						<option value="3">Salads</option>
-						<option value="4">Meat</option>
-						<option value="5">Desserts</option>
-
-					</select>
-				</div>
-			</li>
-			<li id="li_1">
-				<label class="description" for="element_1">Recipe Name: </label>
-				<div>
-					<input id="element_1" name="element_1" class="element text medium" type="text" maxlength="255"
-						value="" />
-				</div>
-
-				<div>
-					<button>New</button>
-				</div>
-
-			</li>
-			<table class="recipes">
-				<thead>
-					<tr>
-						<th>Recipe</th>
-						<th>Category</th>
-						<th>Chef</th>
-						<th>Rank<br></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Pizza</td>
-						<td>Pastas</td>
-						<td>Carlos S.</td>
-						<td>4</td>
-					</tr>
-					<tr>
-						<td>Filled Tomatoes<br></td>
-						<td>Salad</td>
-						<td>Carlos S.</td>
-						<td>3</td>
-					</tr>
-					<tr>
-						<td>Rib Eye</td>
-						<td>Meat</td>
-						<td>Carlos S.<br></td>
-						<td>2</td>
-					</tr>
-					<tr>
-						<td>Banana Split</td>
-						<td>Desserts</td>
-						<td>Carlos S</td>
-						<td>5</td>
-					</tr>
-				</tbody>
-			</table>
-
-		</ul>
-
-
+	<div class="form_description">
+		<h2>Avantica’s Cookbook</h2>
+		<p></p>
 	</div>
-	<img id="bottom" src="bottom.png" alt="">
+
+	
+		<div class="filters">
+			<label for="element_2">Category </label>
+			<select id="element_2" name="element_2">
+				<option value="" selected="selected"></option>
+				<option value="1">All Recipes</option>
+				<option value="2">Pastas</option>
+				<option value="3">Salads</option>
+				<option value="4">Meat</option>
+				<option value="5">Desserts</option>
+			</select>
+
+			<label for="element_1">Recipe Name: </label>
+			<input id="element_1" name="element_1" type="text" maxlength="255" value="" />
+			<button>New</button>
+
+		</div>
+		  
+	<div class="recipesContainer">
+		<div>
+			<img src="https://picsum.photos/200/300">
+			<div>Pumpking Salad</div>
+			<div>Salads</div>
+		</div>
+		<div>
+			<img src="https://picsum.photos/200/300">
+			<div>Banana Split</div>
+			<div>Desserts</div>
+		</div>
+		<div>
+			<img src="https://picsum.photos/200/300">
+			<div>Pizza</div>
+			<div>Pastas</div>
+		</div>
+		<div>
+			<img src="https://picsum.photos/200/300">
+			<div>Chuleta</div>
+			<div>Meat</div>
+		</div>
+		<div>
+			<img src="https://picsum.photos/200/300">
+			<div>Icescream</div>
+			<div>Desserts</div>
+		</div>
+		<div>
+			<img src="https://picsum.photos/200/300">
+			<div>Lasgna</div>
+			<div>Salads</div>
+		</div>
+		
+		
+		
+	</div>
+
+
+
+
+
+
+
 </body>
 
 </html>
