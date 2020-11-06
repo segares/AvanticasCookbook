@@ -1,0 +1,48 @@
+doctype transitional
+html(xmlns='http://www.w3.org/1999/xhtml')
+  head
+    meta(http-equiv='Content-Type' content='text/html; charset=UTF-8')
+    title New Recipe
+    link(rel='stylesheet' type='text/css' href='view.css' media='all')
+    script(type='text/javascript' src='view.js')
+    style
+      include ../public/css/view.css
+  body#main_body
+    h1
+      a New Recipe
+    .form_description
+      h2 New Recipe
+      p
+    form#newRecipeForm(method='post' action='')
+      .recipeForm
+        div
+          label(for='name') Recipe Name:
+          input#name(name='name' type='text')
+        div
+          label(for='chef') Chef Name:
+          input#chef(name='chef' type='text')
+        div
+          label(for='category') Category:
+          select#category(name='category')
+            option(value='' selected='selected')
+            option(value='1') All Recipes
+            option(value='2') Pastas
+            option(value='3') Salads
+            option(value='4') Meat
+            option(value='5') Desserts
+        div
+          label(for='chef') Chef Name:
+          input#chef(name='chef' type='text')
+        div
+          label(for='ingredient') Ingredients:
+        div
+          input#ingredient(name='ingredient' type='text')
+          input#quantity(name='quantity' type='text')
+        div
+          input#ingredient(name='ingredient' type='text')
+          input#quantity(name='quantity' type='text')
+        div
+          label(for='preparation') Preparation:
+          textarea#preparation(name='preparation')
+        div
+          input#saveForm.button_text(type='submit' name='submit' value='Submit')

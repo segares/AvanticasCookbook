@@ -1,5 +1,75 @@
-html
+doctype transitional
+html(xmlns='http://www.w3.org/1999/xhtml')
   head
-    title= title
-  body
-    h1= message
+    meta(http-equiv='Content-Type' content='text/html; charset=UTF-8')
+    title Avantica’s Cookbook
+    link(rel='stylesheet' type='text/css' href='view.css' media='all')
+    script(type='text/javascript' src='view.js')
+    style
+      include ../public/css/view.css
+
+  body#main_body
+    h1
+      a Avantica’s Cookbook
+    .form_description
+      h2 Avantica’s Cookbook
+      p
+    .filters
+      label(for='element_2') Category 
+      select#element_2(name='element_2')
+        option(value='' selected='selected')
+        option(value='1') All Recipes
+        option(value='2') Pastas
+        option(value='3') Salads
+        option(value='4') Meat
+        option(value='5') Desserts
+      label(for='element_1') Recipe Name: 
+      input#element_1(name='element_1' type='text' maxlength='255' value='')
+      button#newRecipe(onclick="location.href = '/newrecipe'") New
+    .recipesContainer
+      for recipe in recipes
+        div
+          img(src= recipe.picture)
+          div #{recipe.recipeName}
+          div #{recipe.categoryName}
+ 
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    

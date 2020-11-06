@@ -1,0 +1,13 @@
+html
+    head
+        title Avantica’s Cookbook
+    body
+        form(action="/validateAuth", method="post")
+            div
+                label(for='username') Username: 
+                input#username(name='username' type='text' maxlength='255' value='')
+            div
+                label(for='password') Password: 
+                input#password(name='password' type='text' maxlength='255' value='')
+            div
+                input#submit(type='submit' value='Submit')
