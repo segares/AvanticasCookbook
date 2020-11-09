@@ -1,9 +1,12 @@
-const express = require('express')
+import express from 'express';
+import bodyParser from 'body-parser';
 const app = express()
 const port = 3000
 const session = require('express-session')
 const FileStore = require('session-file-store')(session)
 var path = require('path');
+
+app.use(bodyParser.json());
 
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug');

@@ -3,9 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./index.js"
+    "start": "nodemon — exec babel-node index.js",
+    "build" : "babel index.js — out-file index-compiled.js"
   },
   "dependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/node": "^7.12.6",
+    "@babel/preset-env": "^7.12.1",
     "cookie-parser": "^1.4.5",
     "debug": "~2.6.9",
     "express": "~4.16.1",
