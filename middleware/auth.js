@@ -6,16 +6,4 @@ function auth(req, res, next) {
     next();
 }
 
-function auth2(req, res, next) {
-    if (!req.session.user) {
-        var authHeader = req.headers.authorization;
-        if (!authHeader) {
-            res.render('login');
-        }
-    } else {
-        res.render('login');
-    }
-    next();
-}
-
-module.exports = auth;
+export default auth;

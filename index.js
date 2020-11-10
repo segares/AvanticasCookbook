@@ -1,29 +1,31 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import session from 'express-session';
+import fs from 'fs';
+import path from 'path';
+import fileStore from 'session-file-store';
+import auth from './middleware/auth.js'
+
 const app = express()
 const port = 3000
-const session = require('express-session')
-const FileStore = require('session-file-store')(session)
-var path = require('path');
+const file_store = fileStore(session);
 
 app.use(bodyParser.json());
-
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'pug');
 app.use(express.static('public'))
-//app.use(cookierParser('abcdef-12345'))
-const auth = require('./middleware/auth');
 app.use(express.urlencoded({
   extended: true
 }))
 
-app.use(session({
+app.set('views', path.join(path.resolve(), 'views'))
+app.set('view engine', 'pug');
+
+ app.use(session({
   name:'session-id',
   secret:'123456xxx',
   saveUninitialized:false,
   resave:false,
-  store:new FileStore()
-}))
+  store: new file_store()
+})) 
 
 var unless = function(path, middleware) {
   return function(req, res, next) {
@@ -42,8 +44,9 @@ app.get('/', function(req, res){
 });
 
 app.get('/recipes', function (req, res) {
-  const recipes = require('./listRecipes.json');
-  res.render('index', { recipes: recipes })
+  let rawdata = fs.readFileSync('listRecipes.json');
+  let student = JSON.parse(rawdata);
+  res.render('index', { recipes: student })
 })
 
 app.get('/newrecipe', function(req, res){
