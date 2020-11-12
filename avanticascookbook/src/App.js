@@ -1,33 +1,27 @@
 import './App.css';
 import jsonRecipes from './listRecipes.json'
+import axios from 'axios';
+import React from 'react';
+//import 'react'
 
 function App() {
   return (
-    <div>
-    <Filters />
-    <RecipeList recipesData={jsonRecipes} />
-  </div>
+    <ShoppingList />
 
   );
 }
 
 class ShoppingList extends React.Component {
-
   componentDidMount() { 
-localhost:3000
-
+    getResponse();
    }
 
   render() {
     return (
-      <div className="shopping-list">
-        <h1>Shopping List for {this.props.name}</h1>
-        <ul>
-          <li>Instagram</li>
-          <l5836i>WhatsApp</li>
-          <li>Oculus</li>
-        </ul>
-      </div>
+      <div>
+    <Filters />
+    <RecipeList recipesData={jsonRecipes} />
+  </div>
     );
   }
 }
@@ -61,6 +55,26 @@ function RecipeList(props) {
     </div>
   );
   return <div className="recipesContainer">{recipes}</div>;
+}
+
+function getResponse(){
+  const instance = axios.create({
+    baseURL: process.env.REACT_APP_SERVER
+  });
+console.log("SERVER URL: " + process.env.REACT_APP_SERVER);
+  
+  instance.get('/recipes')
+  .then(function (response) {
+    // handle success
+    console.log(response);
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+  .then(function () {
+    // always executed
+  });
 }
 
 

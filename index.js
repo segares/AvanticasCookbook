@@ -7,7 +7,7 @@ import fileStore from 'session-file-store';
 import auth from './middleware/auth.js'
 
 const app = express()
-const port = 3000
+const port = 3001
 const file_store = fileStore(session);
 
 app.use(bodyParser.json());
@@ -37,7 +37,7 @@ var unless = function(path, middleware) {
   };
 };
 
-app.use(unless('/validateAuth', auth));
+//app.use(unless('/validateAuth', auth));
 
 app.get('/', function(req, res){
   res.render('login');
@@ -45,8 +45,9 @@ app.get('/', function(req, res){
 
 app.get('/recipes', function (req, res) {
   let rawdata = fs.readFileSync('listRecipes.json');
-  let student = JSON.parse(rawdata);
-  res.render('index', { recipes: student })
+  let recipesResult = JSON.parse(rawdata);
+  res.json(recipesResult);
+  //res.render('index', { recipes: student })
 })
 
 app.get('/newrecipe', function(req, res){
