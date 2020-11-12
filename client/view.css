@@ -177,9 +177,6 @@ select.medium {
 	height: 200px; /* height given for illustration */
 	display: flex;
 	flex-flow: row wrap;
-	
-	
-	
   }
 
 .recipesContainer > div {
