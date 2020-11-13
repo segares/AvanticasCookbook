@@ -6,21 +6,32 @@ import React from 'react';
 
 function App() {
   return (
-    <ShoppingList />
-
+    <RecipeList />
   );
 }
 
-class ShoppingList extends React.Component {
+class RecipeList extends React.Component {
+  state = {
+    recipes: []
+  }
+
   componentDidMount() { 
-    getResponse();
+    const instance = axios.create({
+      baseURL: process.env.REACT_APP_SERVER
+    });
+    instance.get(`/recipes`)
+      .then(res => {
+        const recipesData = res.data;
+        console.log("RECIPES DATA: " + recipesData);
+        this.setState({recipes: recipesData });
+      }).catch(error => console.log(error))
    }
 
   render() {
     return (
       <div>
     <Filters />
-    <RecipeList recipesData={jsonRecipes} />
+    <RecipeList recipesData = {this.state.recipes} />
   </div>
     );
   }
@@ -56,28 +67,5 @@ function RecipeList(props) {
   );
   return <div className="recipesContainer">{recipes}</div>;
 }
-
-function getResponse(){
-  const instance = axios.create({
-    baseURL: process.env.REACT_APP_SERVER
-  });
-console.log("SERVER URL: " + process.env.REACT_APP_SERVER);
-  
-  instance.get('/recipes')
-  .then(function (response) {
-    // handle success
-    console.log(response);
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-  })
-  .then(function () {
-    // always executed
-  });
-}
-
-
-
 
 export default App;

@@ -4,12 +4,15 @@ import session from 'express-session';
 import fs from 'fs';
 import path from 'path';
 import fileStore from 'session-file-store';
+import cors from 'cors';
 import auth from './middleware/auth.js'
+import knex from './database/config.js'
 
 const app = express()
 const port = 3001
 const file_store = fileStore(session);
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static('public'))
 app.use(express.urlencoded({
@@ -43,11 +46,14 @@ app.get('/', function(req, res){
   res.render('login');
 });
 
-app.get('/recipes', function (req, res) {
+app.get('/recipes', async function (req, res) {
   let rawdata = fs.readFileSync('listRecipes.json');
-  let recipesResult = JSON.parse(rawdata);
-  res.json(recipesResult);
-  //res.render('index', { recipes: student })
+
+  knex.raw('select * from recipe').then(function(resp) { 
+    console.log(resp.rows)
+    let recipesResult = JSON.parse(rawdata);
+    res.json(recipesResult);
+   });
 })
 
 app.get('/newrecipe', function(req, res){
@@ -70,3 +76,5 @@ app.post('/validateAuth', function(req, res){
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
+
+
