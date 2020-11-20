@@ -1,12 +1,13 @@
 import knexDb from 'knex';
+import config from '../config.js'
 
 var knex = knexDb({
-    client: 'pg',
+    client: config.db.client,
     connection: {
-      host : '127.0.0.1',
-      user : 'admin',
-      password : 'admin',
-      database : 'postgres'
+      host : config.db.host,
+      user : config.db.user,
+      password : config.db.password,
+      database : config.db.database
     }
   });
 
