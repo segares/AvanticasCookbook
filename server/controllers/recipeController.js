@@ -1,7 +1,5 @@
 import getAllRecipes from '../dal/recipeDao.js';
-import bunyan from 'bunyan';
-
-const log = bunyan.createLogger({ name: 'AvanticaCookbook' });
+import log from '../public/logs.js';
 
 export const getFilteredRecipes = (filter) => {
   if (filter != null && filter != '') {
