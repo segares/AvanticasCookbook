@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import {useHistory} from "react-router-dom";
-import CategorySelect from '../components/CategorySelect';
+import CategorySelect from '../components/CategorySelect.js';
 
 class Recipes extends React.Component {
   state = {

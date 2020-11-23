@@ -1,12 +1,20 @@
 import fs from 'fs';
 import knex from '../database/config.js';
 
-function getAllRecipes() {
+async function getAllRecipes() {
   const rawdata = fs.readFileSync('listRecipes.json');
 
-  knex.raw('select * from recipe').then(function (resp) {
-    console.log('DATABASE RESULT:' + resp.rows);
-  });
+  let query;
+
+  try {
+    query = await knex.raw('select * from recipe');
+  } catch (error) {
+    console.log(error);
+  }
+
+  return query;
+
+  console.log('DATABASE RESULT:' + resp.rows);
 
   let recipesResult = JSON.parse(rawdata);
   //console.log(recipesResult)
