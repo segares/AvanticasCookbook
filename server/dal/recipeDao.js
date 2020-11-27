@@ -8,17 +8,12 @@ async function getAllRecipes() {
 
   try {
     query = await knex.raw('select * from recipe');
+    //console.log('DATABASE RESULT:', query);
   } catch (error) {
     console.log(error);
   }
 
-  return query;
-
-  console.log('DATABASE RESULT:' + resp.rows);
-
-  let recipesResult = JSON.parse(rawdata);
-  //console.log(recipesResult)
-  return recipesResult;
+  return query.rows;
 }
 
 function getRecipeByName() {}
