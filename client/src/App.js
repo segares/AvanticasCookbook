@@ -4,7 +4,7 @@ import 'fontsource-roboto';
 import Login from './screens/login.js'
 import Recipes from './screens/home.js'
 import RecipeForm from './screens/newRecipe'
-import {withRouter } from "react-router-dom";
+import ShowRecipe from './screens/showRecipe'
 import {Switch, BrowserRouter as Router, Route } from "react-router-dom";
 
 
@@ -15,6 +15,7 @@ function App() {
          <Route exact path="/" component={Login}></Route> 
          <Route exact path="/home" component={Recipes}></Route>
         <Route exact path="/newRecipe" component={RecipeForm}></Route>
+        <Route exact path="/showRecipe" component={ShowRecipe}></Route>
       </Switch>
     </Router>
   );

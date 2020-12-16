@@ -1,54 +1,99 @@
-import getAllRecipes from '../dal/recipeDao.js';
+import jwt from 'jsonwebtoken';
+import {
+  checkDatabase,
+  getAllRecipes,
+  getRecipesByName,
+  insertRecipe,
+  updateRecipe,
+  deleteRecipe,
+} from '../dal/recipeDao.js';
 import log from '../public/logs.js';
 
-import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
+const successResponse = (res) => res.status(200).json({ success: true });
+const failResponse = (res) => res.status(400).json({ success: false });
 
-let users = {
+const users = {
   admin: { password: 'pass' },
   mary: { password: 'passwordmary' },
 };
 
-export const getFilteredRecipes = async (filter) => {
-  const recipesResult = await getAllRecipes();
-  log.info(recipesResult);
+export const getFilteredRecipes = async (req) => {
+  const recipeName = req.query.filter;
+  let recipesResult;
+
+  if (recipeName && recipeName !== '') {
+    recipesResult = await getRecipesByName(recipeName);
+  } else {
+    recipesResult = await getAllRecipes();
+  }
+
   return recipesResult;
 };
 
-function createRecipe(recipe) {}
+export const checkIfRecipeSchemaExist = async () => {
+  const result = checkDatabase();
+  return result.rowCount > 0;
+};
+
+export const createRecipe = async (req, res) => {
+  const { recipename, cheffname, categoryname, preparation, ingredients } = req.body;
+  try {
+    await insertRecipe({
+      recipename,
+      cheffname,
+      categoryname,
+      preparation,
+      ingredients: JSON.stringify(ingredients),
+    });
+    return successResponse(res);
+  } catch (error) {
+    console.log(error);
+    return failResponse(res);
+  }
+};
+
+export const editRecipe = async (req, res) => {
+  const { recipename, cheffname, categoryname, preparation, ingredients, recipeid } = req.body;
+  try {
+    await updateRecipe(recipename, cheffname, categoryname, preparation, ingredients, recipeid);
+    return successResponse(res);
+  } catch (error) {
+    return failResponse(res);
+  }
+};
+
+export const removeRecipe = async (req, res) => {
+  const { recipeid } = req.body;
+  try {
+    await deleteRecipe(recipeid);
+    return successResponse(res);
+  } catch (error) {
+    return failResponse(res);
+  }
+};
 
 export const validateLogin = (req, res) => {
-  let username = req.body.username;
-  let password = req.body.password;
+  const { username } = req.body;
+  const { password } = req.body;
 
-  // Neither do this!
   if (!username || !password || users[username].password !== password) {
     return res.status(401).send();
   }
 
-  //use the payload to store information about the user such as username, user role, etc.
-  let payload = { username: username };
+  const payload = { username: username };
 
-  //create the access token with the shorter lifespan
-  console.log(jwt);
-  let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+  const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
     algorithm: 'HS256',
     expiresIn: process.env.ACCESS_TOKEN_LIFE,
   });
 
-  //create the refresh token with the longer lifespan
-  let refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
+  const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
     algorithm: 'HS256',
     expiresIn: process.env.REFRESH_TOKEN_LIFE,
   });
 
-  //store the refresh token in the user array
   users[username].refreshToken = refreshToken;
-
-  //send the access token to the client inside a cookie
   res.cookie('jwt', accessToken, { secure: true, httpOnly: true });
 
   return res.send();
 };
-
-export default { getFilteredRecipes, createRecipe, validateLogin };

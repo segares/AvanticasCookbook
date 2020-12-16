@@ -1,109 +1,66 @@
 import '../App.css';
-import axios from 'axios';
-import React from 'react';
 import 'fontsource-roboto';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
-import {useHistory} from "react-router-dom";
-import CategorySelect from '../components/CategorySelect.js';
-import {fetchRecipesPending, fetchRecipesSuccess, fetchRecipesError} from '../actions.js';
-import {getRecipesError, getRecipes, getRecipesPending} from '../reducers.js';
+import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import Filters from '../components/Filters.js';
+import RecipeList from '../components/RecipeList.js';
+import { fetchRecipesPending, fetchRecipesSuccess, fetchRecipesError } from '../actions.js';
+import { getRecipesError, getRecipes, getRecipesPending } from '../reducers.js';
 
 class Recipes extends React.PureComponent {
- 
-
   componentDidMount() {
-    /* const instance = axios.create({
-      baseURL: process.env.REACT_APP_SERVER
-    });
-    instance.get(`/recipes`)
-      .then(res => {
-        const recipesData = res.data;
-        this.setState({ recipes: recipesData });
-      }).catch(error => console.log(error)) */
-      const {fetchRecipes} = this.props;
-      console.log("fetchRecipes:", fetchRecipes)
-      fetchRecipes();
+    const { fetchRecipes } = this.props;
+    fetchRecipes('');
   }
 
   render() {
-    const {recipes, error, pending} = this.props;
-    if(!recipes){
-      return <h1>Not recipes</h1>
-    }
+    const { recipes, fetchRecipes } = this.props;
     return (
       <div>
-        <Filters />
+        <Filters searchHandler={fetchRecipes}/>
         <RecipeList recipesData={recipes} />
       </div>
     );
   }
 }
 
-function Filters(props) {
-  const history = useHistory()
-  return (
-    <div className="filters">
-      <CategorySelect />
-      <FormControl>
-        <TextField label="Recipe" variant="outlined" id="element_1" name="element_1" maxLength="255" />
-      </FormControl>
-      <FormControl>
-         <Button variant="contained" color="primary" id="newRecipe" onClick={()=> history.push("/newRecipe")} >New</Button> 
-      </FormControl>
-    </div>)
-}
+function fetchFilteredRecipes(filter) {
+  return (dispatch) => {
+    dispatch(fetchRecipesPending());
+    var url = new URL('http://localhost:3001/api/recipes');
+    var params = { filter: filter };
 
-function fetchFilteredRecipes() {
-  console.log("Executing fetch:")
-  return dispatch => {
-      dispatch(fetchRecipesPending());
-      fetch('http://localhost:3001/api/recipes')
-      .then(res => res.json())
-      .then(res => {
-          if(res.error) {
-              throw(res.error);
-          }
-          console.log("SUCCESS FETCH:", res)
-          dispatch(fetchRecipesSuccess(res));
-          return res.recipes;
+    url.search = new URLSearchParams(params).toString();
+
+    fetch(url)
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.error) {
+          throw res.error;
+        }
+        dispatch(fetchRecipesSuccess(res));
+        return res.recipes;
       })
-      .catch(error => {
-          dispatch(fetchRecipesError(error));
-      })
-  }
+      .catch((error) => {
+        dispatch(fetchRecipesError(error));
+      });
+  };
 }
 
-
-function RecipeList(props) {
-  const recipesData = props.recipesData;
-  const recipes = recipesData.map((recipe) =>
-    <div key= {recipe.recipeid}>
-      <img src={recipe.picture} alt="Recipe." />
-      <div>{recipe.recipename}</div>
-      <div>{recipe.categoryname}</div>
-    </div>
-  );
-  return <div className="recipesContainer">{recipes}</div>;
-}
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   error: getRecipesError(state),
   recipes: getRecipes(state),
-  pending: getRecipesPending(state)
-})
+  pending: getRecipesPending(state),
+});
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchRecipes: fetchFilteredRecipes
-}, dispatch)
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      fetchRecipes: fetchFilteredRecipes,
+    },
+    dispatch
+  );
 
-//export default Recipes;
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Recipes);
+export default connect(mapStateToProps, mapDispatchToProps)(Recipes);

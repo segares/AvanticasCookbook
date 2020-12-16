@@ -1,4 +1,3 @@
-
 .App {
   text-align: center;
 }
@@ -39,30 +38,88 @@
 }
 
 .recipesContainer {
-	width: auto;
-	height: 200px; /* height given for illustration */
-	display: flex;
-	flex-flow: row wrap;
-  }
+  width: auto;
+  height: 200px; /* height given for illustration */
+  display: flex;
+  flex-flow: row wrap;
+}
 
 .recipesContainer > div {
-	  margin: 10px;
-	  flex: 0 1 calc(20% - 8px); /* <-- adjusting for margin */
+  margin: 10px;
+  flex: 0 1 calc(20% - 8px); /* <-- adjusting for margin */
 }
 
 .filters {
-	margin: 20px;
-	width: 600px;
+  margin: 25px;
+  width: 700px;
+}
+
+.filters > div  {
+  margin-right: 50px;
 }
 
 .recipeForm {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
   align-items: flex-start;
 }
 
 .recipeForm > div {
-	margin: 10px;
+  margin: 10px;
 }
+
+.login-form {
+  justify-content: center;
+  min-height: 90vh;
+}
+.button-block {
+  width: 100%;
+}
+.login-background {
+  justify-content: center;
+  min-height: 30vh;
+  padding: 50px;
+}
+
+.recipe {
+  margin-left: 25px;
+}
+
+.ingredients {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding-left: 10px;
+  border: 1px solid rgb(103, 105, 212);
+  border-radius: 16px;
+  width: 30%;
+}
+
+.recipePicture {
+  width: 300px;
+  height: 300px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.ingredientsControls{
+  margin-bottom: 5px;
+}
+
+.ingredientsControls > div{
+  margin-right: 10px;
+}
+
+.updatedRecipeButtons{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.updatedRecipeButtons > button{
+ margin-right: 20px;
+}
+
+
+
 
 

@@ -5,6 +5,7 @@ import path from 'path';
 import fileStore from 'session-file-store';
 import cors from 'cors';
 import router from './routes/api/index.js';
+import { checkIfRecipeSchemaExist } from './controllers/recipeController.js';
 import config from './config.js';
 
 const app = express();
@@ -26,6 +27,7 @@ app.set('view engine', 'pug');
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
+  checkIfRecipeSchemaExist();
 });
 
 export default app;
