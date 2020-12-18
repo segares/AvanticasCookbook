@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -7,7 +6,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
@@ -17,7 +15,7 @@ export default class Ingredients extends React.Component {
     super(props);
     const { ingredients, handleAddIngredient } = this.props;
     this.state = { ingredientName: '', quantity: '', ingredients };
-    this.handleAddIngredient = handleAddIngredient;
+    //this.handleAddIngredient = handleAddIngredient;
   }
 
   deleteItem(i) {
@@ -25,6 +23,19 @@ export default class Ingredients extends React.Component {
     ingredients.splice(i, 1);
     this.setState({ ingredients });
   }
+
+  handleAddIngredient = (name, quantity) => {
+    const ingredient = { name, quantity };
+    var ingredients = this.state.ingredients;
+
+    if (!Array.isArray(ingredients)) {
+      ingredients = [];
+      this.setState(ingredients);
+    }
+
+    ingredients.push(ingredient);
+    this.setState(ingredients);
+  };
 
   render() {
     return (
@@ -81,7 +92,7 @@ export default class Ingredients extends React.Component {
             <TableBody>
               {Array.isArray(this.state.ingredients) &&
                 this.state.ingredients.map((ingredient, i) => (
-                  <TableRow id={ingredient.name} key={ingredient.name}>
+                  <TableRow id={ingredient.name} key={i}>
                     <TableCell component="th" scope="row">
                       {ingredient.name}
                     </TableCell>

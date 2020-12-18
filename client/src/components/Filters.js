@@ -16,16 +16,16 @@ class Filters extends React.Component {
 
   redirectToRecipeForm = () => {
     const { history } = this.props;
-    console.log('HISTORY2', history);
-    if(history) history.push('/newRecipe');
-   }
+    if (history) history.push('/newRecipe');
+  };
 
   render() {
-    const { history } = this.props;
-    console.log('HISTORY', history);
     return (
       <div className="filters">
-        <CategorySelect />
+        <CategorySelect
+          categoryname={this.state.category}
+          onChange={(event) => this.setState({ categoryname: event.target.value })}
+        />
         <FormControl>
           <TextField
             label="Recipe"
@@ -55,7 +55,7 @@ class Filters extends React.Component {
             id="newRecipe"
             onClick={() => this.redirectToRecipeForm()}>
             New
-          </Button>
+          </Button> 
         </FormControl>
       </div>
     );

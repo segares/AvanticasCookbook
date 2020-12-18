@@ -6,7 +6,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 
 function CategoryList(props) {
   var { categoryname = 'All Recipes', onChange } = props;
-  console.log('CATEGORY', categoryname)
     return (
     <FormControl>
       <InputLabel id="categoryLabel">Category</InputLabel>

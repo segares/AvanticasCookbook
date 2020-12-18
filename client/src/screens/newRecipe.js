@@ -18,6 +18,7 @@ class RecipeForm extends React.Component {
       categoryname = 'All Recipes',
       ingredients = [],
       recipeid = '',
+      picture = '',
     } = recipe || {};
     this.state = {
       recipename,
@@ -25,6 +26,7 @@ class RecipeForm extends React.Component {
       categoryname,
       ingredients,
       recipeid,
+      picture,
     };
     if (this.state.ingredients === {}) {
       this.state.ingredients = [];
@@ -73,25 +75,22 @@ class RecipeForm extends React.Component {
       .catch((error) => alert('Error removing!'));
   }
 
-  handleAddIngredient = (name, quantity) => {
-    const ingredient = { name, quantity };
-    var ingredients = this.state.ingredients;
-
-    if (!Array.isArray(ingredients)) {
-      ingredients = [];
-      this.setState(ingredients);
-    }
-    console.log('ING', ingredients);
-    ingredients.push(ingredient);
-    this.setState(ingredients);
-  };
-
   render() {
     const { isEditing } = this?.props?.location?.state || {};
     const width = 550;
     return (
       <form id="newRecipeForm" onSubmit={this.handleSubmit}>
         <div className="recipeForm">
+        <FormControl>
+            <TextField
+              label="Picture"
+              variant="outlined"
+              id="picture"
+              name="picture"
+              value={this.state.picture}
+              onChange={(event) => this.setState({ [event.target.name]: event.target.value })}
+            />
+          </FormControl>
           <FormControl>
             <TextField
               label="Recipe Name"
@@ -120,7 +119,6 @@ class RecipeForm extends React.Component {
           </FormControl>
           <Ingredients
             ingredients={this.state.ingredients}
-            handleAddIngredient={this.handleAddIngredient}
           />
 
           <TextField

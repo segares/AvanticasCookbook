@@ -1,5 +1,6 @@
 import '../App.css';
 import React from 'react';
+import axios from 'axios';
 import Rating from '@material-ui/lab/Rating';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
@@ -29,6 +30,19 @@ class ShowRecipe extends React.Component {
       preparation,
       rating,
     };
+  }
+
+  handleRateRecipe(){
+    const instance = axios.create({
+      baseURL: process.env.REACT_APP_SERVER,
+    });
+    instance
+      .post(`/rateRecipe`, {
+        recipeid: this.state.recipeid,
+        reviewvalue: this.state.rating,
+      })
+      .then((res) => {})
+      .catch((error) => alert('Error rating the recipe'));
   }
 
   render() {
@@ -64,10 +78,13 @@ class ShowRecipe extends React.Component {
         <Box component="fieldset" mb={3} borderColor="transparent">
           <Typography component="legend">Rating:</Typography>
           <Rating
-          id="rating"
+            id="rating"
             name="rating"
             value={this.state.rating}
             onChange={(event) => this.setState({ [event.target.name]: event.target.value })}
+            onClick={() => {
+              this.handleRateRecipe();
+            }}
           />
         </Box>
       </div>

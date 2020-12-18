@@ -19,7 +19,7 @@ class Recipes extends React.PureComponent {
     const { recipes, fetchRecipes } = this.props;
     return (
       <div>
-        <Filters searchHandler={fetchRecipes}/>
+        <Filters searchHandler={fetchRecipes} />
         <RecipeList recipesData={recipes} />
       </div>
     );
@@ -34,7 +34,7 @@ function fetchFilteredRecipes(filter) {
 
     url.search = new URLSearchParams(params).toString();
 
-    fetch(url)
+    fetch(url, { credentials: 'same-origin' })
       .then((res) => res.json())
       .then((res) => {
         if (res.error) {

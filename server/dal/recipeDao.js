@@ -15,32 +15,13 @@ export const getAllRecipes = async () => {
 
 export const getRecipesByName = async (recipeName) => {
   const query = `SELECT * FROM RECIPE WHERE RECIPENAME LIKE '%${recipeName}%'`;
-  var result;
+  let result;
   try {
     result = await knex.raw(query);
   } catch (error) {
     console.log(error);
   }
   return result.rows;
-};
-
-export const checkDatabase = async () => {
-  const query = 'SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = :database';
-  const database = 'public';
-  var result;
-  try {
-    result = await knex.raw(query, {
-      database,
-    });
-
-    if (result.rowCount === 0) {
-      processSQLFile(path.join(path.resolve(), 'dal/backup.sql'));
-    }
-  } catch (error) {
-    console.log(error);
-  }
-
-  return result;
 };
 
 export const insertRecipe = async ({
@@ -50,7 +31,6 @@ export const insertRecipe = async ({
   preparation,
   ingredients,
 }) => {
-  console.log('ING', ingredients);
   const query =
     'INSERT INTO RECIPE (recipename, cheffname, categoryname, ingredients, preparation) VALUES (:recipename, :cheffname, :categoryname, :ingredients, :preparation)';
   await knex.raw(query, {
@@ -89,6 +69,27 @@ export const updateRecipe = async (
   return knex.destroy;
 };
 
+export const insertReviewValue = async (recipeid, userid, reviewvalue) => {
+  let query =
+    'INSERT INTO RECIPE_VIEW (recipeid, userid, reviewvalue) VALUES (:recipeid, :userid, :reviewvalue)';
+  await knex.raw(query, {
+    recipeid,
+    userid,
+    reviewvalue,
+  });
+
+  return knex.destroy;
+};
+
+export const updateRecipeRating = async (recipeid) => {
+  let query =
+    'update recipe set rating = (select round( cast(avg(reviewvalue) as numeric),1) from recipe_review where recipeid = :recipeid group by recipeid) where recipeid = :recipeid';
+  await knex.raw(query, {
+    recipeid,
+  });
+  return knex.destroy;
+};
+
 export const deleteRecipe = async (recipeid) => {
   try {
     const query = 'DELETE FROM RECIPE WHERE recipeid = :recipeid';
@@ -121,6 +122,25 @@ const processSQLFile = async (fileName) => {
       console.log(error);
     }
   }
+};
+
+export const checkDatabase = async () => {
+  const query = 'SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = :table';
+  const table = 'recipe';
+  let result;
+  try {
+    result = await knex.raw(query, {
+      table,
+    });
+
+    if (result.rowCount === 0) {
+      processSQLFile(path.join(path.resolve(), 'dal/backup.sql'));
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+  return result;
 };
 
 export default getAllRecipes;
